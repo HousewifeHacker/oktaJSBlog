@@ -5,17 +5,29 @@
   "dependencies": {
     "@material-ui/core": "^3.0.2",
     "@material-ui/icons": "^3.0.1",
+    "@okta/jwt-verifier": "0.0.12",
     "@okta/okta-react": "1.0.2",
+    "body-parser": "1.18.3",
+    "cors": "2.8.4",
+    "dotenv": "6.0.0",
+    "epilogue": "0.7.1",
+    "nodemon": "^1.18.4",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
     "react-router": "^4.3.1",
     "react-router-dom": "4.3.1",
-    "react-scripts": "1.1.5"
+    "react-scripts": "1.1.5",
+    "sqlite": "^3.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm-run-all --parallel start:server start:web",
+    "start:server": "nodemon --watch src/server src/server",
+    "start:web": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "npm-run-all": "4.1.3"
   }
 }
