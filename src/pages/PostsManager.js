@@ -9,8 +9,9 @@ import {
     ListItem,
     ListItemText,
     ListItemSecondaryAction,
+    IconButton,
 } from '@material-ui/core';
-import { Add as AddIcon } from '@material-ui/icons';
+import { Delete as DeleteIcon, Add as AddIcon } from '@material-ui/icons';
 import moment from 'moment';
 import { find, orderBy } from 'lodash';
 import { compose } from 'recompose';
@@ -65,6 +66,15 @@ class PostsManager extends Component {
         this.getPosts();
     }
 
+    async deletePost(post) {
+        // confirms, deletes, updates posts on page
+        // personally not a fan of this UX but cool demo of other option
+        if (window.confirm(`Are you sure you want to delete "${post.title}"`)) {
+            await this.fetch('delete', `/posts/${post.id}`);
+            this.getPosts();
+        }
+    }
+
     renderPostEditor = ({ match: {params: { id } } }) => {
         if (this.state.loading) { return null; }
         const post = find(this.state.posts, { id: Number(id) });
@@ -84,6 +94,11 @@ class PostsManager extends Component {
                     primary={post.title}
                     secondary={post.updatedAt && `Updated ${moment(post.updatedAt).fromNow()}`}
                 />
+                <ListItemSecondaryAction>
+                    <IconButton onClick={() => this.deletePost(post)} color="inherit">
+                        <DeleteIcon />
+                    </IconButton>
+                </ListItemSecondaryAction>
             </ListItem>
         )
     }
